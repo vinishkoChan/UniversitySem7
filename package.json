@@ -1,0 +1,33 @@
+{
+  "name": "UniversitySem7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FoZzTH/UniversitySem7.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FoZzTH/UniversitySem7/issues"
+  },
+  "homepage": "https://github.com/FoZzTH/UniversitySem7#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "feathers": "^2.2.4",
+    "feathers-configuration": "^0.4.2",
+    "feathers-errors": "^2.9.2",
+    "feathers-hooks": "^2.1.2",
+    "feathers-rest": "^1.8.1",
+    "fs": "0.0.1-security",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  }
+}
