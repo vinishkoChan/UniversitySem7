@@ -57,8 +57,8 @@ const data = [
 
 const combo = [
   [[1], [2], [3], [4], [5]],
-  [[1, 2] [1, 3], [1, 4], [1, 5]]
-]
+  [[1, 2][(1, 3)], [1, 4], [1, 5]],
+];
 
 function sortPhase() {
   const comparator = (d1, d2) => {
@@ -72,14 +72,14 @@ function selectPhase(selectPercent) {
   const result = [];
 
   const joinTime = [];
-  data.forEach(d => {
+  data.forEach((d) => {
     const products = d.products_id;
     const users = [];
 
-    data.forEach(d1 => {
+    data.forEach((d1) => {
       let joined = true;
 
-      products.forEach(p => {
+      products.forEach((p) => {
         if (!joined) return;
 
         joined = d1.products_id.includes(p);
@@ -87,12 +87,12 @@ function selectPhase(selectPercent) {
 
       if (joined) {
         if (!users.includes(d1.user_id)) {
-          users.push(d1.user_id)
+          users.push(d1.user_id);
         }
       }
     });
 
-    if (!joinTime.find(j => j.id === products.toString())) {
+    if (!joinTime.find((j) => j.id === products.toString())) {
       joinTime.push({
         id: products.toString(),
         count: users.length,
@@ -101,11 +101,11 @@ function selectPhase(selectPercent) {
     }
   });
 
-  joinTime.forEach(j => {
+  joinTime.forEach((j) => {
     if (j.count / USERS_COUNT >= selectPercent) {
       if (j.array.length > 1) {
-        j.array.forEach(r => {
-          if (!result.find(f => f[0] === r && f.length === 1))
+        j.array.forEach((r) => {
+          if (!result.find((f) => f[0] === r && f.length === 1))
             result.push([r]);
         });
       }
@@ -119,41 +119,45 @@ function selectPhase(selectPercent) {
 
   return result.map((r, i) => ({
     id: i + 1,
-    item: r
+    item: r,
   }));
 }
 
 function transformationPhase(selectArray) {
   const result = [];
 
-  data.forEach(d => {
-    if (result.find(r => r.user_id === d.user_id)) return;
-    
+  data.forEach((d) => {
+    if (result.find((r) => r.user_id === d.user_id)) return;
+
     const userProducts = [];
-    
-    data.filter(dt => dt.user_id === d.user_id).forEach(dt => userProducts.push(dt.products_id));
+
+    data
+      .filter((dt) => dt.user_id === d.user_id)
+      .forEach((dt) => userProducts.push(dt.products_id));
 
     result.push({
       user_id: d.user_id,
-      products_id: userProducts
+      products_id: userProducts,
     });
   });
 
-  result.forEach(r => {
+  result.forEach((r) => {
     r.select_id = [];
 
-    r.products_id.forEach(p => {
+    r.products_id.forEach((p) => {
       if (p.length === 1) {
-        const selectItem = selectArray.find(s => s.item.toString() === p.toString());
+        const selectItem = selectArray.find(
+          (s) => s.item.toString() === p.toString()
+        );
         if (selectItem) {
           r.select_id.push([selectItem.id]);
         }
       } else {
         const sel_id = [];
 
-        selectArray.forEach(sA => {
+        selectArray.forEach((sA) => {
           let joined = true;
-          sA.item.forEach(s => {
+          sA.item.forEach((s) => {
             if (!joined) return;
 
             joined = p.includes(s);
@@ -164,66 +168,103 @@ function transformationPhase(selectArray) {
           }
         });
 
-        if (sel_id.length)
-          r.select_id.push(sel_id);
+        if (sel_id.length) r.select_id.push(sel_id);
       }
     });
   });
 
-  return result.map(r => r.select_id);
+  return result.map((r) => r.select_id);
 }
 
 function generatePhase(transArray, genPercent) {
-  const getAllSubsets = theArray => theArray.reduce(
-    (subsets, value) => subsets.concat(
-     subsets.map(set => [value,...set])
-    ),
-    [[]]
-  );
+  const getAllSubsets = (theArray) =>
+    theArray
+      .reduce(
+        (subsets, value) =>
+          subsets.concat(subsets.map((set) => [value, ...set])),
+        [[]]
+      )
+      .map((tA) => tA.reverse());
 
   const result = [];
 
   let max = transArray[0][0][0];
-  
-  transArray.forEach(tA => {
-    tA.forEach(t => {
+
+  transArray.forEach((tA) => {
+    tA.forEach((t) => {
       const m = Math.max(...t);
       if (max < m) {
         max = m;
       }
-    })
+    });
   });
 
-  const subsets = getAllSubsets(Array.from({length: max}, (_, k) => k + 1));
+  const subsets = getAllSubsets(Array.from({ length: max }, (_, k) => k + 1));
 
-  subsets.forEach(sub => {
-    if (!sub.length) return;
+  subsets.forEach((sub) => {
+    if (sub.length <= 0) return;
+    // sub = [2, 1]
     let count = 0;
-    
-    sub.forEach(s => {
+    transArray.forEach((tA) => {
+      // tA = [[1], [2, 5]]
       let joined = true;
-      transArray.forEach(tA => {
-        tA.forEach(t => {
-          if (!joined) return;
 
-          joined = t.includes(s);
-        });
+      const tAConcat = [].concat(...tA.map((a) => a));
+
+      let lastIndex = -2;
+      sub.forEach((s) => {
+        const index = tAConcat.indexOf(s);
+        // console.log(tAConcat, sub, s, index);
+        if (index < lastIndex || index === -1) {
+          joined = false;
+        }
+
+        lastIndex = index;
       });
-      if (joined) {
-        count++;
-      }
+
+      if (joined) count++;
     });
 
     result.push({
       id: sub.toString(),
-      count: count,
+      count: count
     });
   });
+  result.sort((a, b) => {
+    if (a.id.length === b.id.length) {
+      return a.id.localeCompare(b.id);
+    }
 
-  console.log(result);
+    return a.id.length - b.id.length;
+  });
+
+  return result.filter((r) => r.count / USERS_COUNT >= genPercent);
 }
 
+function getResult(genArray) {
+  const result = [];
 
+  const minCount = Math.min(...genArray.map(g => g.count));
+  const arrayMinCount = genArray.filter(g => g.count === minCount).reverse();
+
+  arrayMinCount.forEach(a => {
+    const parsed = JSON.parse(`[${a.id}]`);
+
+    let joined = false;
+    result.forEach(r => {
+      let includes = true;
+      parsed.forEach(p => {
+        if (!r.includes(p)) includes = false;
+      })
+
+      if (includes) joined = true;
+    })
+
+    if (!joined) result.push(parsed);
+  });
+
+  return result;
+}
 
 function main() {
   // console.log('----------------------------------------------------------------------------------------------------')
@@ -239,17 +280,33 @@ function main() {
   // console.log('----------------------------------------------------------------------------------------------------')
   // console.log('After select phase:')
   // console.log(selectArray);
-  
+
   const transformationArray = transformationPhase(selectArray);
   // console.log('----------------------------------------------------------------------------------------------------')
   // console.log('After transformation phase:')
   // console.log(transformationArray);
 
-  generatePhase(transformationArray, GENERATE_PERCENT);
+  // Presentation data
+  // const a = [
+  //   [[1, 5], [2], [3], [4]],
+  //   [[1], [3], [4], [3, 5]],
+  //   [[1], [2], [3], [4]],
+  //   [[1], [3], [5]],
+  //   [[4], [5]],
+  // ];
+
+  // const genArray = generatePhase(a, GENERATE_PERCENT);
+
+  const genArray = generatePhase(transformationArray, GENERATE_PERCENT);
   // console.log('----------------------------------------------------------------------------------------------------')
   // console.log('After transformation phase:')
-  // console.log(transformationArray);
+  
+  const result = getResult(genArray);
+
+  console.log('####################################################################################################')
+  console.log(result);
+  console.log('####################################################################################################')
+
 }
 
 main();
-
