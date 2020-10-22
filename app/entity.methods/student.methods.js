@@ -1,7 +1,7 @@
 const errorFactory = require('../errors/errorFactory');
 const roleEnum = require('../enums/roleEnum');
 
-const findAllStudents = db => {
+const find = db => {
   const query = `
   SELECT
     user.id,
@@ -14,13 +14,13 @@ const findAllStudents = db => {
 
   return db.sequelize
     .query(query, {
-      type: db.sequelize.QueryTypes.SELECT,      
+      type: db.sequelize.QueryTypes.SELECT,
       replacements: {
         studentRole: roleEnum.STUDENT.key,
       },
     })
     .then(result => {
-      if (result.length === 0) {
+      if (!result.length) {
         return Promise.reject(
           errorFactory.createNotFoundError(`Students not found`),
         );
@@ -31,5 +31,5 @@ const findAllStudents = db => {
 };
 
 module.exports = {
-  findAllStudents,
+  find,
 };

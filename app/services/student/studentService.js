@@ -4,9 +4,9 @@ class StudentService {
   constructor(db) {
     this.db = db;
   }
-  
+
   async find() {
-    return studentMethods.findAllStudents(this.db);
+    return studentMethods.find(this.db);
   }
 }
 

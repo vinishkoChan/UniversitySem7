@@ -1,7 +1,7 @@
 const errorFactory = require('../errors/errorFactory');
 const roleEnum = require('../enums/roleEnum');
 
-const findAllTeachers = db => {
+const find = db => {
   const query = `
   (SELECT
     'user' AS source,
@@ -31,7 +31,7 @@ const findAllTeachers = db => {
 
   return db.sequelize
     .query(query, {
-      type: db.sequelize.QueryTypes.SELECT,      
+      type: db.sequelize.QueryTypes.SELECT,
       replacements: {
         teacherRole: roleEnum.TEACHER.key,
       },
@@ -45,11 +45,11 @@ const findAllTeachers = db => {
 
       return {
         teachers: result.filter(record => record.source === 'user'),
-        languages: result.filter(record => record.source === 'language')
+        languages: result.filter(record => record.source === 'language'),
       };
     });
 };
 
 module.exports = {
-  findAllTeachers,
+  find,
 };

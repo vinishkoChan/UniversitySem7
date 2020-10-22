@@ -6,7 +6,7 @@ class TeacherService {
   }
   
   async find() {
-    return teacherMethods.findAllTeachers(this.db);
+    return teacherMethods.find(this.db);
   }
 }
 
