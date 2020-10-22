@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` VARCHAR(50) NOT NULL,
   `login` VARCHAR(50) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
+  `role` VARCHAR(50) NOT NULL,
   `mark_for_delete` TINYINT(1) NOT NULL DEFAULT 0,
   `created_date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_modified_date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

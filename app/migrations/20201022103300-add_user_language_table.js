@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('teacher_language',
+    return queryInterface.createTable('user_language',
       {
         id: {
           type: Sequelize.BIGINT,
@@ -11,14 +11,14 @@ module.exports = {
           autoIncrement: true,
           field: 'id',
         },
-        teacherId: {
+        userId: {
           type: Sequelize.BIGINT,
           allowNull: false,
           references: {
-            model: 'teacher',
+            model: 'user',
             key: 'id'
           },
-          field: 'teacher_id'
+          field: 'user_id'
         },        
         languageId: {
           type: Sequelize.BIGINT,
@@ -50,6 +50,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('teacher_language');
+    return queryInterface.dropTable('user_language');
   }
 };

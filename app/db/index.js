@@ -19,7 +19,7 @@ module.exports = function () {
       );
     })
     .forEach(function (file) {
-      const entity = sequelize['import'](path.join(__dirname, file));
+      const entity = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
       db[entity.name] = entity;
     });
 

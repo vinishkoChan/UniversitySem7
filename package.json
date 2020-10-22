@@ -23,6 +23,7 @@
     "@feathersjs/feathers": "^4.5.9",
     "@feathersjs/rest-client": "^4.5.9",
     "dotenv": "^8.2.0",
+    "enum": "^3.0.4",
     "fs": "0.0.1-security",
     "lodash.get": "^4.4.2",
     "mysql2": "^2.2.5",

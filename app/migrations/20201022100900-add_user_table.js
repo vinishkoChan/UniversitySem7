@@ -1,4 +1,6 @@
-'use strict';
+const roleEnum = require('../enums/roleEnum');
+
+const roles = [roleEnum.TEACHER.key, roleEnum.STUDENT.key];
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -30,6 +32,11 @@ module.exports = {
           type: Sequelize.STRING(50),
           allowNull: false,
           field: 'password'
+        },
+        role: {
+          type: Sequelize.ENUM(roles),
+          allowNull: false,
+          field: 'role'
         },
         markForDelete: {
           type: Sequelize.BOOLEAN,

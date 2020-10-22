@@ -1,7 +1,7 @@
 const hooks = require('./hooks');
 const service = require('./teacherService');
 
-const url = '/teacher';
+const url = '/teachers';
 
 module.exports = function () {
   const app = this;

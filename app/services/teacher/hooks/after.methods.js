@@ -1,7 +1,6 @@
-const teacher = require('..');
-
 const getTeacherInfo = (teacher, languages) => {
   return {
+    id: teacher.id,
     firstName: teacher.firstName,
     lastName: teacher.lastName,
     login: teacher.login,
@@ -9,14 +8,6 @@ const getTeacherInfo = (teacher, languages) => {
       name: l.language,
     })),
   };
-};
-
-const hydrateGetResponse = hook => {
-  const { teachers, languages } = hook.result;
-
-  hook.result = getTeacherInfo(teachers[0], languages);
-
-  return Promise.resolve(hook);
 };
 
 const hydrateFindResponse = hook => {
@@ -33,6 +24,5 @@ const hydrateFindResponse = hook => {
 };
 
 module.exports = {
-  hydrateGetResponse,
   hydrateFindResponse,
 };

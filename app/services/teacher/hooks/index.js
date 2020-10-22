@@ -14,7 +14,7 @@ module.exports = {
   after: {
     all: [],
     find: [after.hydrateFindResponse],
-    get: [after.hydrateGetResponse],
+    get: [],
     create: [],
     update: [],
     patch: [],
