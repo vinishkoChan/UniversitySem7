@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/FoZzTH/UniversitySem7#readme",
   "dependencies": {
+    "@feathersjs/authentication": "^4.5.9",
     "@feathersjs/errors": "^4.5.9",
     "@feathersjs/express": "^4.5.9",
     "@feathersjs/feathers": "^4.5.9",
