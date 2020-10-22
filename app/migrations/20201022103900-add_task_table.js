@@ -19,7 +19,17 @@ module.exports = {
             key: 'id'
           },
           field: 'program_id'
-        },
+        },           
+        topic: {
+          type: Sequelize.STRING(255),
+          allowNull: false,
+          field: 'topic'
+        },      
+        description: {
+          type: Sequelize.STRING(255),
+          allowNull: true,
+          field: 'description'
+        }, 
         createdDateTime: {
           type: Sequelize.DATE,
           allowNull: false,

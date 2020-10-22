@@ -11,6 +11,26 @@ module.exports = {
           autoIncrement: true,
           field: 'id',
         },
+        firstName: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+          field: 'first_name'
+        },        
+        lastName: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+          field: 'last_name'
+        },   
+        login: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+          field: 'login'
+        },   
+        password: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+          field: 'password'
+        },
         markForDelete: {
           type: Sequelize.BOOLEAN,
           allowNull: false,

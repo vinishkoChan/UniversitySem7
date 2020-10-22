@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS `task` (
   `id` BIGINT NOT NULL auto_increment ,
   `program_id` BIGINT NOT NULL,
+  `topic` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255),
   `created_date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_modified_date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
