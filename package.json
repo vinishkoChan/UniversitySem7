@@ -4,7 +4,7 @@
   "description": "",
   "main": "./app/server.js",
   "scripts": {
-    "start": "node ./app/server.js"
+    "start": "nodemon ./app/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +18,18 @@
   },
   "homepage": "https://github.com/FoZzTH/UniversitySem7#readme",
   "dependencies": {
+    "@feathersjs/errors": "^4.5.9",
     "@feathersjs/express": "^4.5.9",
     "@feathersjs/feathers": "^4.5.9",
     "@feathersjs/rest-client": "^4.5.9",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
+    "lodash.get": "^4.4.2",
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5",
     "umzug": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

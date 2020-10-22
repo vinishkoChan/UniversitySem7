@@ -1,3 +1,5 @@
+const after = require('./after.methods');
+
 module.exports = {
   before: {
     all: [],
@@ -11,8 +13,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [after.hydrateFindResponse],
+    get: [after.hydrateGetResponse],
     create: [],
     update: [],
     patch: [],

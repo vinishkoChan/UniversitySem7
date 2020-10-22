@@ -1,9 +1,10 @@
 const hooks = require('./hooks');
 const service = require('./studentService');
 
+const url = '/student';
+
 module.exports = function () {
   const app = this;
-  const url = '/stud';
 
   app.use(url, service(app.db));
 
