@@ -1,6 +1,6 @@
 const startServer = () => {
   const app = require('./app');
-  const port = process.env.NODE_PORT;
+  const port = process.env.APP_PORT;
   const server = app.listen(port);
 
   server.on('listening', () => {
