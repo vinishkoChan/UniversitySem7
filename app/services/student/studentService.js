@@ -4,7 +4,6 @@ class StudentService {
   }
   
   async find(params) {
-    console.log('asd');
     return { hello: 'Hi' };
   }
 }

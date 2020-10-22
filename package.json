@@ -2,9 +2,8 @@
   "name": "UniversitySem7",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./app/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./app/server.js"
   },
   "repository": {
@@ -25,6 +24,7 @@
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "umzug": "^2.3.0"
   }
 }

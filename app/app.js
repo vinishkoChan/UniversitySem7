@@ -1,11 +1,7 @@
-const dotenv = require('dotenv');
-
 const express = require('@feathersjs/express');
 const feathers = require('@feathersjs/feathers');
 const services = require('./services');
 const appHooks = require('./app.hooks');
-
-dotenv.config();
 
 const app = express(feathers());
 
