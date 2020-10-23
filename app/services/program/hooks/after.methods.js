@@ -1,6 +1,10 @@
 const hydrateGetResponse = hook => {
   const program = hook.result;
 
+  if (!program.id) {
+    return Promise.resolve(hook);
+  }
+
   hook.result = {
     id: program.id,
     teacherId: program.teacherId,

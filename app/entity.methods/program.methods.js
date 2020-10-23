@@ -94,8 +94,8 @@ const get = (db, id = 0) => {
         );
       }
 
-      const program = result.find(record => record.source === 'program');
-      program.tasks = result.filter(record => record.source === 'task');
+      const program = result.find(record => record.source === 'program') || {};
+      program.tasks = result.filter(record => record.source === 'task') || [];
 
       return Promise.resolve(program);
     });
