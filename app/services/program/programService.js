@@ -33,6 +33,25 @@ class ProgramService {
 
     return errorFactory.createNotFoundError(`Program with id = ${id} not found.`);
   }
+
+  async create(data, req) {
+    const me = await userMethods.get(this.db, req.user.id);
+    const secondUser = await userMethods.get(this.db, data.studentId);
+
+    if (me.role !== roleEnum.TEACHER.key) {
+      return errorFactory.createMethodNotAllowedError('Only teacher can create the program.');
+    }
+    if (me.role === secondUser.role) {
+      return errorFactory.createBadRequestError('Program can be created only between teacher and student.');
+    }
+
+    const createData = {
+      teacherId: req.user.id,
+      studentId: data.studentId,
+    }
+
+    return programMethods.create(this.db, createData);
+  }
 }
 
 module.exports = db => new ProgramService(db);

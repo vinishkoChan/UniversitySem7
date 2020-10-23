@@ -101,8 +101,13 @@ const get = (db, id = 0) => {
     });
 };
 
+const create = (db, programInfo = {}) => {
+  return db.program.create(programInfo).catch(error => Promise.reject(error));
+}
+
 module.exports = {
   findByTeacher,
   findByStudent,
   get,
+  create
 };

@@ -1,4 +1,5 @@
 const authBefore = require('../../auth/hooks/before.methods');
+const beforeMethods = require('./before.methods');
 const afterMethods = require('./after.methods');
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
     all: [authBefore.processToken],
     find: [],
     get: [],
-    create: [],
+    create: [beforeMethods.validateRequest],
     update: [],
     patch: [],
     remove: [],
