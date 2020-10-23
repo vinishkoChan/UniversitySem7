@@ -1,4 +1,4 @@
-const { hooks } = require('./hooks');
+const hooks = require('./hooks');
 const service = require('./authService');
 
 const url = '/auth';

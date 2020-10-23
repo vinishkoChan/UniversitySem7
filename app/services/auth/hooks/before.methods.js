@@ -26,6 +26,20 @@ const processToken = (hook) => {
   return Promise.resolve(hook);
 }
 
+const validateRequest = (hook) => {
+  const { data } = hook;
+
+  if (!data.login) {
+    return Promise.reject(errorFactory.createBadRequestError('Login required.'));
+  }
+  if (!data.password) {
+    return Promise.reject(errorFactory.createBadRequestError('Password required.'));
+  }
+
+  return Promise.resolve(hook);
+}
+
 module.exports = {
+  validateRequest,
   processToken,
 }

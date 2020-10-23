@@ -12,4 +12,5 @@ module.exports = {
   APP_PORT: process.env.APP_PORT,
   TOKEN_SECRET: process.env.TOKEN_SECRET,
   TOKEN_LIVE: process.env.TOKEN_LIVE,
+  PASSWORD_HASH_SECRET: process.env.PASSWORD_HASH_SECRET,
 }

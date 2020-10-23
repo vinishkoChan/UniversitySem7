@@ -1,11 +1,12 @@
 const beforeMethods = require('./before.methods');
+const afterMethods = require('./after.methods');
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [beforeMethods.validateRequest],
+    create: [beforeMethods.validateRequest, beforeMethods.hydrateRequest],
     update: [],
     patch: [],
     remove: [],
@@ -15,7 +16,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [afterMethods.hydrateResponse],
     update: [],
     patch: [],
     remove: [],

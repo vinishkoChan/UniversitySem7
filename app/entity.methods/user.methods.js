@@ -1,5 +1,6 @@
 const errorFactory = require('../errors/errorFactory');
 const roleEnum = require('../enums/roleEnum');
+const { query } = require('@feathersjs/express');
 
 const find = db => {
   const query = `
@@ -56,7 +57,7 @@ const get = (db, userId = 0) => {
     });
 };
 
-const getForAuth = (db, userLogin = '') => {
+const getUserByLogin = (db, userLogin = '') => {
   const query = `
   SELECT
     user.id AS id,
@@ -66,26 +67,34 @@ const getForAuth = (db, userLogin = '') => {
   WHERE user.login = :userLogin
   `;
 
-  return db.sequelize
-    .query(query, {
-      type: db.sequelize.QueryTypes.SELECT,
-      replacements: {
-        userLogin,
-      },
-    })
-    .then(result => {
-      if (!result.length) {
-        return Promise.reject(
-          errorFactory.createNotAuthenticatedError(`Wrong login or password.`),
-        );
-      }
-
-      return Promise.resolve(result[0]);
-    });
+  return db.sequelize.query(query, {
+    type: db.sequelize.QueryTypes.SELECT,
+    replacements: {
+      userLogin,
+    },
+  }).then(result => result[0] || null);
 };
+
+const getForAuth = (db, userLogin = '') => {
+  return getUserByLogin(db, userLogin).then(result => {
+    if (!result) {
+      return Promise.reject(
+        errorFactory.createNotAuthenticatedError(`Wrong login or password.`),
+      );
+    }
+
+    return Promise.resolve(result);
+  });
+};
+
+const create = (db, userInfo = {}) => {
+  return db.user.create(userInfo).catch(error => Promise.reject(error));
+}
 
 module.exports = {
   find,
   get,
+  getUserByLogin,
   getForAuth,
+  create
 };

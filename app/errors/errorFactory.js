@@ -1,17 +1,21 @@
 'use strict';
 
-const { NotFound, NotAuthenticated } = require('@feathersjs/errors');
+const { NotFound, NotAuthenticated, BadRequest } = require('@feathersjs/errors');
 
-module.exports.createNotFoundError = error => {
-  const newError = new NotFound(error);
+const handleError = (newError, error) => {
   newError.stack = error.stack;
 
   return newError;
+}
+
+module.exports.createNotFoundError = error => {
+  return handleError(new NotFound(error), error)
 };
 
 module.exports.createNotAuthenticatedError = error => {
-  const newError = new NotAuthenticated(error);
-  newError.stack = error.stack;
+  return handleError(new NotAuthenticated(error), error)
+};
 
-  return newError;
+module.exports.createBadRequestError = error => {
+  return handleError(new BadRequest(error), error)
 };
