@@ -26,13 +26,14 @@ const find = db => {
     });
 };
 
-const get = (db, userId) => {
+const get = (db, userId = 0) => {
   const query = `
   SELECT
     user.id AS id,
 	  user.first_name AS firstName,
     user.last_name AS lastName,
-    user.login AS login
+    user.login AS login,
+    user.role AS role
   FROM user
   WHERE user.id = :userId
   `;
@@ -55,7 +56,36 @@ const get = (db, userId) => {
     });
 };
 
+const getForAuth = (db, userLogin = '') => {
+  const query = `
+  SELECT
+    user.id AS id,
+    user.login AS login,
+    user.password AS password
+  FROM user
+  WHERE user.login = :userLogin
+  `;
+
+  return db.sequelize
+    .query(query, {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: {
+        userLogin,
+      },
+    })
+    .then(result => {
+      if (!result.length) {
+        return Promise.reject(
+          errorFactory.createNotAuthenticatedError(`Wrong login or password.`),
+        );
+      }
+
+      return Promise.resolve(result[0]);
+    });
+};
+
 module.exports = {
   find,
   get,
+  getForAuth,
 };

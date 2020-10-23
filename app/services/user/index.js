@@ -11,6 +11,6 @@ module.exports = function () {
   const userService = app.service(url);
 
   if (userService.hooks) {
-    userService.hooks(hooks);
+    userService.hooks(hooks(app));
   }
 };

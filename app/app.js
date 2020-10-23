@@ -2,7 +2,6 @@ const express = require('@feathersjs/express');
 const feathers = require('@feathersjs/feathers');
 const services = require('./services');
 const appHooks = require('./app.hooks');
-const env = require('./env');
 
 const app = express(feathers());
 

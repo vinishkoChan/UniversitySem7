@@ -1,15 +1,22 @@
-const { AuthenticationService, JWTStrategy } = require('@feathersjs/authentication');
-const authConfig = require('../../../config/auth.json');
+const { hooks } = require('./hooks');
+const service = require('./authService');
 
 const url = '/auth';
 
-module.exports = function () {
+let authService;
+function config() {
   const app = this;
-  
-  app.set('authentication', authConfig);
 
-  const authService = new AuthenticationService(app);
-  authService.register('jwt', new JWTStrategy());
+  app.use(url, service(app.db));
 
-  app.use(url, authService);
+  authService = app.service(url);
+
+  if (authService.hooks) {
+    authService.hooks(hooks);
+  }
+}
+
+module.exports = {
+  config,
+  service: authService,
 };
